@@ -4,14 +4,6 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '1mb',
-    },
-  },
-};
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const text = await req.body();
