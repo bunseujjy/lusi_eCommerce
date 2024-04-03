@@ -15,10 +15,10 @@ export async function POST(request: Request) {
         if(event?.type === "checkout.session.completed") {
             const metadata = event.data?.object?.metadata
             const paymentStatus = event.data?.object?.payment_status
-            if(metadata?.orderID && paymentStatus === "paid") {
+            if(metadata?.orderId && paymentStatus === "paid") {
                 const order = await prisma.order.update({
                     where: {
-                        id: metadata.orderID
+                        id: metadata.orderId
                     },
                     data: {
                         paid: "paid"
@@ -32,5 +32,3 @@ export async function POST(request: Request) {
         return NextResponse.json({error: error}, {status: 500})
     }
 }
-
-
