@@ -72,7 +72,7 @@ export async function POST(request: Request) {
             success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
             cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout`,
             metadata: {
-                orderId: order.id,
+                orderID: order.id,
                 email,
             }
         });
