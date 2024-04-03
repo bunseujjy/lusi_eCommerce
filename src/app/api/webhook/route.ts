@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"
 import { headers } from "next/headers"
 
 export async function POST(request: Request): Promise<any> {
-    const text = await request.text()
+    const text = await request.json()
     const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
     const signature = headers().get("stripe-signature") ?? "";
     let event: Stripe.Event
