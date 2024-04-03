@@ -26,7 +26,7 @@ export async function POST(request: Request) {
         })
     
         if(findUserByUsernameAndEmail) {
-            return NextResponse.json({user: null, message: "Username or Email already exists"}, {status: 401})
+            return NextResponse.json({user: null, message: "Username or Email already exists"}, {status: 404})
         }
     
         const hashedPassword = await bcrypt.hash(password, 12)

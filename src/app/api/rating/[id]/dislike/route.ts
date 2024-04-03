@@ -6,7 +6,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     const currentUser = await getCurrentUser();
     
     if(!currentUser) {
-        return NextResponse.json({ message: "Invalid User"}, { status: 401});
+        return NextResponse.json({ message: "Invalid User"}, { status: 404});
     }
 
     try {    
@@ -29,7 +29,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 
    // If the user has already liked the review, unlike it
     if(hasLiked) {
-        return NextResponse.json({message: "Undo to"}, {status: 505})
+        return NextResponse.json({message: "Undo to"}, {status: 500})
     } else if (hasDisliked) {       
     await prisma.review.update({           
         where: { id: params.id },           
@@ -38,7 +38,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
             dislikedBy: { set: userReview.dislikedBy.filter(id=>id !== currentUser.id) }           
         }       
     });       
-        return NextResponse.json({ message: "You unliked this review"}, { status: 201});   
+        return NextResponse.json({ message: "You unliked this review"}, { status: 200});   
     }
 
         

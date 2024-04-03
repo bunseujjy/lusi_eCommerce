@@ -3,7 +3,7 @@ import prisma from "@/lib/db"
 import { NextResponse } from "next/server"
 import { headers } from "next/headers"
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<any> {
     const body = await request.text()
     const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
     const signature = headers().get("stripe-signature") ?? "";
@@ -33,8 +33,11 @@ export async function POST(request: Request) {
     }
 }
 
-export const config = {
-    api: {
-        bodyParser: false
-    }
-}
+export const dynamic = 'auto'
+export const dynamicParams = true
+export const revalidate = false
+export const fetchCache = 'auto'
+export const runtime = 'nodejs'
+export const preferredRegion = 'auto'
+export const maxDuration = 5
+ 

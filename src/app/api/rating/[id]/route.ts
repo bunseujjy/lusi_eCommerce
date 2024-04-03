@@ -9,7 +9,7 @@ export async function PATCH(request: Request, {params} : {params : {id: string}}
     const currentUser = await getCurrentUser()
 
     if(!currentUser) {
-        return NextResponse.json({message: "Invalid User"}, {status: 401})
+        return NextResponse.json({message: "Invalid User"}, {status: 404})
     }
 
     const userReview = await prisma.review.findUnique({where: {id: params.id}})
@@ -34,7 +34,7 @@ export async function DELETE(request: Request,{params} : {params: {id: string}})
     const currentUser = await getCurrentUser()
 
     if(!currentUser) {
-        return NextResponse.json({message: "Invalid User"}, {status: 401})
+        return NextResponse.json({message: "Invalid User"}, {status: 404})
     }
 
     const userReview = await prisma.review.findUnique({where: {id: params.id}})
@@ -56,7 +56,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     const currentUser = await getCurrentUser();
     
     if (!currentUser) {
-        return NextResponse.json({ message: "Invalid User" }, { status: 401 });
+        return NextResponse.json({ message: "Invalid User" }, { status: 404 });
     }
 
     try {    
@@ -83,7 +83,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
                     dislikedBy: { set: userReview.dislikedBy.filter(id => id !== currentUser.id) }           
                 }
             }); 
-            return NextResponse.json({ message: "You un-disliked this review" }, { status: 201 });   
+            return NextResponse.json({ message: "You un-disliked this review" }, { status: 200 });   
         } else if (hasLiked) {
             // If the user has already liked the review, unlike it
             await prisma.review.update({
@@ -93,7 +93,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
                     likedBy: { set: userReview.likedBy.filter(id => id !== currentUser.id) }           
                 }
             }); 
-            return NextResponse.json({ message: "You unliked this review" }, { status: 201 });   
+            return NextResponse.json({ message: "You unliked this review" }, { status: 200 });   
         }
 
         // Update the review to increase the like count and add the user to likedBy array

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 
 
-export async function DELETE(request: Request) {
+export async function DELETE(request: Request): Promise<NextResponse<any>>  {
     try {
 
         const body = await request.json()
@@ -19,11 +19,11 @@ export async function DELETE(request: Request) {
         });
 
         if(!existingUser) {
-            return null
+            return NextResponse.json({message: "Failed to delete user"}, {status: 404})
         }
         
-        return NextResponse.json({user: existingUser, message: "User deleted successfully"}, {status: 201})
+        return NextResponse.json({user: existingUser, message: "User deleted successfully"}, {status: 200})
     } catch (error) {
-        return NextResponse.json({message: "Failed to delete user"}, {status: 401})
+        return NextResponse.json({message: "Failed to delete user"}, {status: 404})
     }
 }

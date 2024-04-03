@@ -9,7 +9,7 @@ export async function POST(request: Request) {
         const currentUser = await getCurrentUser()
 
         if(!currentUser) {    
-            return NextResponse.json({message: "Need to be logged in"}, {status: 401})
+            return NextResponse.json({message: "Need to be logged in"}, {status: 404})
         }
         const body = await request.json();
 
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
         const user = await prisma.user.findUnique({where: {email: email}})
 
         if(!user) {
-            return NextResponse.json({message: "Invalid User"}, {status: 401})
+            return NextResponse.json({message: "Invalid User"}, {status: 404})
         }
 
         const extractingItems = items.map((item: any) => ({

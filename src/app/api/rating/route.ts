@@ -7,7 +7,7 @@ export async function POST(request: Request) {
    try {
     const currentUser = await getCurrentUser()
         if(!currentUser) {
-            return NextResponse.json({message: "Invalid User"}, {status: 401})
+            return NextResponse.json({message: "Invalid User"}, {status: 404})
         }
 
         const {comment, rating, product, userId} = await request.json()

@@ -7,12 +7,15 @@ import { Metadata } from "next";
 export interface IParams {
   productId?: string;
   id: string;
+}
+
+type Props = {
   params: {
     id: string;
   };
-}
+};
 
-export const generateMetadata = ({ params }: IParams): Metadata => {
+export const generateMetadata = ({ params }: Props): Metadata => {
   return {
     title: `Collection Product for ${params.id}`,
     description: `Collection Product details for ${params.id}`,

@@ -23,11 +23,11 @@ export async function PATCH(request: Request) {
         });
 
         if(!findUserAndUpdate) {
-            return NextResponse.json({message: "User not existed"}, {status: 401})
+            return NextResponse.json({message: "User not existed"}, {status: 404})
         }
         
         return NextResponse.json({user: findUserAndUpdate, message: "User updated successfully"}, {status: 201})
     } catch (error) {
-        return NextResponse.json({message: "Failed to update user"}, {status: 400})
+        return NextResponse.json({message: "Failed to update user"}, {status: 404})
     }
 }

@@ -4,16 +4,18 @@ import ProductDetails from "@/app/components/product/ProductDetails";
 import prisma from "@/lib/db";
 import React from "react";
 import { Metadata } from "next";
-
 export interface IParams {
   productId?: string;
   id: string;
+}
+
+type Props = {
   params: {
     id: string;
   };
-}
+};
 
-export const generateMetadata = ({ params }: IParams): Metadata => {
+export const generateMetadata = ({ params }: Props): Metadata => {
   return {
     title: `Women Product ${params.id}`,
     description: `Women Product details for ${params.id}`,

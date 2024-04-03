@@ -4,7 +4,7 @@ import cloudinary from "@/lib/cloudinary"
 import prisma from "@/lib/db"
 import { NextResponse } from "next/server"
 
-export async function GET(request: Request, {params}: {params: {id: string}}) {
+export async function GET(request: Request, {params}: {params: {id: string}}): Promise<void | NextResponse<any>> {
     try {
         const currentUser = await getCurrentUser()
 
@@ -25,7 +25,7 @@ export async function GET(request: Request, {params}: {params: {id: string}}) {
     }
 }
 
-export async function PATCH(request: Request, {params}: {params: {id: string}}) {
+export async function PATCH(request: Request, {params}: {params: {id: string}}): Promise<NextResponse<any>> {
     try {
         const currentUser = await getCurrentUser()
 
@@ -74,17 +74,17 @@ export async function PATCH(request: Request, {params}: {params: {id: string}}) 
                     }
                 })
                     if(!products) {
-                        return null
+                        console.log("Error")
                     }
                 return NextResponse.json({message: "Product updated successfully"}, {status: 200})
             }
-                
+                return NextResponse.json({message: "Success"})
     } catch (error) {
         return NextResponse.json({message: "Failed to update product"}, {status:500})
     }
 }
 
-export async function DELETE(request: Request, {params}: {params: {id: string}}) {
+export async function DELETE(request: Request, {params}: {params: {id: string}}): Promise<NextResponse<any>> {
         const currentUser = await getCurrentUser()
 
         if(!currentUser || currentUser.role !== 'ADMIN') {	
@@ -103,7 +103,7 @@ export async function DELETE(request: Request, {params}: {params: {id: string}})
                     id: params.id,
                 }
         })
-        return NextResponse.json({product, message: "Product deleted successfully"}, {status:200})
+        return NextResponse.json({product, message: "Product deleted successfully"}, {status:204})
         } catch (error) {
             return NextResponse.json({message: "Failed to delete product"}, {status:500})
         }

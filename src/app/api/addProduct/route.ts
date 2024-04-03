@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     const currentUser = await getCurrentUser()
     
     if(!currentUser || currentUser.role !== 'ADMIN') {	
-        return NextResponse.json({message: "Need to be admin"}, {status: 401})
+        return NextResponse.json({message: "Need to be admin"}, {status: 404})
     }
 
     const body = await request.json()
@@ -53,7 +53,7 @@ export async function GET(request: Request) {
         const product = await getAllProduct()
         return NextResponse.json(product, {status:200})
     } catch (error) {
-        return NextResponse.json({message: "Error fetching product"}, {status: 401})
+        return NextResponse.json({message: "Error fetching product"}, {status: 404})
     }
 }
 

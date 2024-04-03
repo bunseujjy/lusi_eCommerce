@@ -8,7 +8,7 @@ export async function PATCH(request: Request, {params} : {params: {id: string}})
     const currentUser = await getCurrentUser()
     
     if(!currentUser || currentUser.role !== 'ADMIN') {	
-        return NextResponse.json({message: "Need to be admin"}, {status: 401})
+        return NextResponse.json({message: "Need to be admin"}, {status: 404})
     }
 
     try {
@@ -54,7 +54,7 @@ export async function DELETE(request: Request, {params}: {params: {id: string}})
     const currentUser = await getCurrentUser()
     
     if(!currentUser || currentUser.role !== 'ADMIN') {	
-        return NextResponse.json({message: "Need to be admin"}, {status: 401})
+        return NextResponse.json({message: "Need to be admin"}, {status: 404})
     }
 
     try {

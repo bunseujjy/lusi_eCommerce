@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
 
     if (!userToken) {
-        return NextResponse.json({message: "Invalid Token"}, {status: 501})
+        return NextResponse.json({message: "Invalid Token"}, {status: 500})
     }
 
     return new NextResponse(JSON.stringify(userToken), {status: 200})

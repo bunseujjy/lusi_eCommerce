@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     const currentUser = await getCurrentUser()
     
     if(!currentUser || currentUser.role !== 'ADMIN') {	
-        return NextResponse.json({message: "Need to be admin"}, {status: 401})
+        return NextResponse.json({message: "Need to be admin"}, {status: 404})
     }
 
     const body = await request.json()

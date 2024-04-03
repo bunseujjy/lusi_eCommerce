@@ -2,11 +2,11 @@ import { getCurrentUser } from "@/app/actions/getCurrentUser";
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export async function PATCH(request: Request, {params}: {params: {id: string}}) {
+export async function PATCH(request: Request, {params}: {params: {id: string}}): Promise<NextResponse<any>> {
     const user = await getCurrentUser()
 
     if(!user) {
-        return NextResponse.json({message: "You need to login to edit this comment"}, {status: 400})
+        return NextResponse.json({message: "You need to login to edit this comment"}, {status: 404})
     }
 
     try {
@@ -26,18 +26,19 @@ export async function PATCH(request: Request, {params}: {params: {id: string}}) 
         if(contact) {
             return NextResponse.json({message: "Contact updated successfully"}, {status: 200})
         }
+        return NextResponse.json({message: "Contact updated successfully"}, {status: 200})
     } catch (error) {
         return NextResponse.json({message: "Bad request"}, {status: 404})
     }
 }
 
-export async function DELETE(request: Request, {params}: {params: {id: string}}) {
+export async function DELETE(request: Request, {params}: {params: {id: string}}): Promise<NextResponse<any>> {
     try {
         const userID = await prisma.contact.findUnique({where: {id: params.id}})
         const user = await getCurrentUser()
     
         if(user?.id !== userID?.userId) {
-            return NextResponse.json({message: "You're not owner of this comment"}, {status: 400})
+            return NextResponse.json({message: "You're not owner of this comment"}, {status: 404})
         }
     
     const contact = await prisma.contact.delete({where: {id: params.id}})
@@ -45,16 +46,17 @@ export async function DELETE(request: Request, {params}: {params: {id: string}})
     if(contact) {
         return NextResponse.json({message: "Contact deleted successfully"}, {status: 200})
     }
+    return NextResponse.json({message: "Contact deleted successfully"}, {status: 200})
     } catch (error) {
         return NextResponse.json({message: "Bad request"}, {status: 404})
     }
 }
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: { id: string } }): Promise<NextResponse<any>> {
     const currentUser = await getCurrentUser();
     
     if(!currentUser) {
-        return NextResponse.json({ message: "Invalid User"}, { status: 401});
+        return NextResponse.json({ message: "Invalid User"}, { status: 404});
     }
 
     try {    
@@ -78,7 +80,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 
    // If the user has already liked the customer comment, unlike it
     if(hasDisliked) {
-        return NextResponse.json({message: "Undo to disliked"}, {status: 505})
+        return NextResponse.json({message: "Undo to disliked"}, {status: 500})
     } else if(hasLiked) {       
     await prisma.contact.update({
         where: { id: params.id },           
@@ -87,7 +89,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
             likedBy: { set: userComment.likedBy.filter(id=>id !== currentUser.id) }           
         }
     }); 
-        return NextResponse.json({ message: "You unliked this review"}, { status: 201});   
+        return NextResponse.json({ message: "You unliked this review"}, { status: 200});   
     }
 
     // Update the contact to increase the like count and add the user to likedBy array
@@ -105,10 +107,10 @@ export async function PUT(request: Request, { params }: { params: { id: string }
         return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
 }}
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: { id: string } }): Promise<void | NextResponse<any>> {
     try {
         const contact = await prisma.contact.findUnique({where: {id: params.id}})
-        return contact
+        return NextResponse.json({contact, message: "Found contact"})
     } catch (error) {
         return NextResponse.json({message: "Bad request"}, {status: 500})
     }

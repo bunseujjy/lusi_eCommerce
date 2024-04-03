@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     const currentUser = await getCurrentUser()
 
     if(!currentUser) {
-        return NextResponse.json({message: "You need to login to contact us"}, {status: 400})
+        return NextResponse.json({message: "You need to login to contact us"}, {status: 404})
     }
 
     try {

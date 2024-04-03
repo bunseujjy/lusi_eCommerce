@@ -21,7 +21,7 @@ const ProductModal = () => {
     defaultValues: {
       title: "",
       price: 0,
-      category: "",
+      category: [],
       inStock: true,
       images: "",
       description: "",

@@ -7,17 +7,7 @@ export const metadata: Metadata = {
   description: "Edit your profile here.",
 };
 
-interface User {
-  email: string;
-  name: string;
-  image: string;
-}
-
-interface UserProps {
-  user: User;
-}
-
-const Profile: React.FC<UserProps> = async () => {
+const Profile = async () => {
   const user = await getCurrentUser();
   return <ProfilePage user={user} />;
 };
