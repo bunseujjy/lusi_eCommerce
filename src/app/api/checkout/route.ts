@@ -13,7 +13,7 @@ export async function POST(request: Request) {
         }
         const body = await request.json();
 
-        const { items, email, name, postcode, address, product, phoneNumber, orderID, productId } = body
+        const { items, email, name, postcode, address, product, phoneNumber, orderID } = body
 
         const user = await prisma.user.findUnique({where: {email: email}})
 
@@ -69,8 +69,8 @@ export async function POST(request: Request) {
             payment_method_types: ["card"],
             line_items: extractingItems,
             mode: "payment",
-            success_url: `${process.env.NEXTAUTH_URL}/success`,
-            cancel_url: `${process.env.NEXTAUTH_URL}/checkout`,
+            success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
+            cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout`,
             metadata: {
                 orderId: order.id,
                 email,

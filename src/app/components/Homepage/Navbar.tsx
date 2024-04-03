@@ -91,14 +91,22 @@ const Navbar = ({ products }: any) => {
           "bg-white/10 backdrop-blur-xl rounded-xl mx-2 top-5"
         }`}
       >
-        <RxHamburgerMenu
-          className="min-[979px]:hidden text-[25px] font-semibold cursor-pointer"
-          onClick={() => setIsOpen(!isOpen)}
-        />
+        <div className="flex items-center lg:hidden">
+          <RxHamburgerMenu
+            className="min-[979px]:hidden text-[25px] font-semibold cursor-pointer"
+            onClick={() => setIsOpen(!isOpen)}
+          />
+          <Link
+            href="/"
+            className="text-2xl md:text-md uppercase font-semibold tracking-[5px] text-[#8e9496] dark:text-white pl-2"
+          >
+            Lusishoe
+          </Link>
+        </div>
         <div className="flex items-center justify-between min-[979px]:pr-[10px]">
           <Link
             href="/"
-            className="text-2xl md:text-md uppercase font-semibold tracking-[5px] text-[#8e9496] dark:text-white"
+            className="hidden lg:block text-2xl md:text-md uppercase font-semibold tracking-[5px] text-[#8e9496] dark:text-white pl-2"
           >
             Lusishoe
           </Link>
@@ -144,13 +152,13 @@ const Navbar = ({ products }: any) => {
             </Link>
           </div>
           <div className="flex items-center justify-center">
-            <div className="flex items-center md:hidden text-xl md:text-[20px]">
+            <div className="hidden lg:block text-xl md:text-[20px] mr-2">
               <ThemeSwitch />
             </div>
-            <div className="relative flex items-center mx-5">
+            <div className="relative flex items-center">
               <button>
                 <IoMdSearch
-                  className="text-2xl md:pr-0 md:text-[20px]"
+                  className="text-2xl md:pr-0 md:text-[20px] hidden lg:block"
                   onClick={() => setCloseSearch(!closeSearch)}
                 />
               </button>
@@ -251,6 +259,21 @@ const Navbar = ({ products }: any) => {
         />
         <FaUser className="text-xl ml-[20px] min-[979px]:ml-0" />
         <span className="w-full h-[1px] bg-[#979a9b]"></span>
+
+        <div className="flex items-center md:hidden text-xl md:text-[20px] ml-[20px]">
+          <div className="mr-5">
+            <ThemeSwitch />
+          </div>
+          <button onClick={() => setIsOpen(!isOpen)}>
+            <IoMdSearch
+              className="text-2xl ml-5 md:pr-0 md:text-[20px]"
+              onClick={() => setCloseSearch(!closeSearch)}
+            />
+          </button>
+          <div className={` ${closeSide ? "block" : "hidden"}`}>
+            <CartSidebar backgroundTransparacy={backgroundTransparacy} />
+          </div>
+        </div>
         {sidebarItems.map((items, idx) => (
           <div key={idx}>
             <Link
@@ -288,7 +311,10 @@ const Navbar = ({ products }: any) => {
             <IoIosArrowForward className="w-5 h-5 text-white" />
           </button>
         </div>
-        <div className="max-w-sm mx-auto border rounded-md dark:border-navy-700">
+        <div
+          className="max-w-sm mx-auto border rounded-md dark:border-navy-700"
+          id="search"
+        >
           {filterProduct && filterProduct.length > 0 ? (
             <ProductList product={filterProduct} />
           ) : (
