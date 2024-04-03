@@ -32,5 +32,3 @@ export async function POST(request: Request): Promise<any> {
         return NextResponse.json({error: error}, {status: 500})
     }
 }
-
-export const dynamic = 'auto'
